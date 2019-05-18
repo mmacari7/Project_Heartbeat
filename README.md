@@ -33,6 +33,8 @@ Here are several profiles included which can be used to test the site:
 |`jaime_lannister@yahoo.com`|`lionheart`		|`no`	|
 |`pbaressi@stevens.edu`		|`dangernoodle`		|`yes`	|
 
+These profiles were created using passwords that are in the seed folder. We use a package called ***bcrypt*** to send the passwords through a 16 salt round hashing. Aside from in the seed file for demonstrational purposes, there are no unhashed passwords anywhere in the source code nor the data base for proper security.
+
 ### External Sources
 If you like the design of the project, you can find the material-kit we used for the front end by Creative Tim in the link here:
 https://demos.creative-tim.com/material-kit/index.html
