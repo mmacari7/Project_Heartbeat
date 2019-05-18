@@ -147,9 +147,8 @@ router.post('/edit', async (req, res) => {
 		user: edituser,
 		error: "Base Error"
 	}
-
 	// Check fields are filled out correctly
-	if (req.body.email === undefined || req.body.email === '' || req.body.password === undefined || req.body.password === '' || req.body.firstName === undefined || req.body.firstName === '' || req.body.lastName === undefined || req.body.lastName === '') {
+	if (req.body.email === undefined || req.body.email === '' || req.body.firstName === undefined || req.body.firstName === '' || req.body.lastName === undefined || req.body.lastName === '') {
 		options.error = "Please enter email and password"
 		res.status(401).render("pages/profile.hbs", options)
 		return;
@@ -163,26 +162,29 @@ router.post('/edit', async (req, res) => {
 		return;
 	}
 
-	// Error for non-matching passwords on sign up
-	if (req.body.password !== req.body.passwordconfirm) {
+        if (req.body.password !== '') {
+        // Error for non-matching passwords on sign up
+            if (req.body.password !== req.body.passwordconfirm) {
 		options.error = "Passwords dont match"
 		res.status(401).render("pages/profile.hbs", options)
 		return;
-	}
+            }
+            req.body.password = await bcrypt.hash(req.body.password, 16);
+        }
 
 	// Creates the new object to be stored into the DB
-	req.body.password = await bcrypt.hash(req.body.password, 16);
+	
 	req.body.firstName = req.body.firstName.charAt(0).toUpperCase() + req.body.firstName.slice(1);
 	req.body.lastName = req.body.lastName.charAt(0).toUpperCase() + req.body.lastName.slice(1);
 	
 	let newbody = {
 		email: req.body.email,
-		password: req.body.password,
 		firstName: req.body.firstName,
 		lastName: req.body.lastName,
 		isAdmin: false,
 		insuranceProvider: req.body.insuranceProvider
 	}
+        if (req.body.password) newbody.password = req.body.password
 
 	await profileData.update(options.user._id, {$set: newbody})
 	res.redirect("/profile")

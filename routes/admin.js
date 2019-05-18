@@ -25,7 +25,7 @@ router.get("/main", async (req, res) => {
 			practitioners: allPractitioners,
 			profiles: allProfiles
 		};
-		res.render("pages/admin/admin.hbs", options);
+		res.render("pages/admin.hbs", options);
 	} catch (error) {
 		res.status(400);
 		console.log(error);
