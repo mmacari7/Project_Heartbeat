@@ -110,6 +110,8 @@ router.post('/practitioner/create', async (req, res) => {
 			procedures: [],
 			providers: req.body.provider
 		};
+                if (typeof practitioner.providers === 'string')
+                    practitioner.providers = [practitioner.providers];
 		for (let i = 0; i < req.body.procedure.length; i++) {
 			let procedure = req.body.procedure[i];
 			let cost = parseFloat(req.body.cost[i]);
@@ -118,10 +120,9 @@ router.post('/practitioner/create', async (req, res) => {
 			practitioner.procedures.push(object);
 		};
 		practitioner = await practitioners.create(practitioner);
-		console.log(practitioner);
 		res.redirect("/admin/main");
 	} catch (error) {
-		console.log(error);
+                console.log(error);
 		res.send("error");
 	}
 });
