@@ -6,8 +6,8 @@ const appointmentsData = require('../data/appointments')
 // Create an appointment
 router.post('/create', async (req, res) => {
 	try {
-                if (req.session.userid !== req.body.userId)
-                    throw "Invalid request";
+		if (req.session.userid !== req.body.userId)
+			throw "Invalid request";
 		let newApt = {
 			userId: req.body.userId,
 			useremail: req.body.useremail,
